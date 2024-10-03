@@ -36,6 +36,13 @@ const UnsubscribeForm = () => {
     <>
       {showForm ? (
         <form className="grid gap-4 w-full max-w-xs" action={unsubscribeAction}>
+          <div className="text-center">
+            <h1 className="text-3xl font-bold">The Resend Gazette</h1>
+            <p className="text-pretty">
+              If you no longer want to receive updates, please unsubscribe
+              below.
+            </p>
+          </div>
           <Wrapper>
             <TextInput
               name="email"
