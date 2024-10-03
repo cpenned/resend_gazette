@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Resend Gazette
 
-## Getting Started
+The Resend Gazette is an open source exploration of [Resend](https://resend.com).
 
-First, run the development server:
+## Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- NextJS
+- Tailwind
+- React Email
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Services Highlighted
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The **home** route offers three options:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Sign up [with an attachment](https://resend.com/docs/dashboard/emails/attachments) (immediate send)
+2. Sign up [with a schedule](https://resend.com/docs/dashboard/emails/schedule-email) (sends in 1 minute)
+3. [Cancel scheduled email](https://resend.com/docs/dashboard/emails/schedule-email#cancel-a-scheduled-email)
 
-## Learn More
+The **unsubscribe** route removes a contact from the audience.
 
-To learn more about Next.js, take a look at the following resources:
+## Email Template
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Emails are created with [React Email](https://react.email) and include [unsubscribe headers](https://resend.com/docs/dashboard/emails/add-unsubscribe-to-transactional-emails) and links to the unsubscribe route.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Audience Interaction
 
-## Deploy on Vercel
+When emails are sent, the user is also added [to an audience](https://resend.com/docs/dashboard/audiences/introduction).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Both canceling a scheduled email and adding an email to the unsubscribe route removes the user from the email list.
