@@ -20,6 +20,7 @@ const config: Config = {
         muted: "hsl(var(--muted) / <alpha-value>)",
         overlay: "hsl(var(--overlay) / <alpha-value>)",
         accent: "hsl(var(--accent) / <alpha-value>)",
+        secondary: "hsl(var(--secondary) / <alpha-value>)",
       },
     },
   },

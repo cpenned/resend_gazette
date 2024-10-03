@@ -1,43 +1,39 @@
 import {
   Body,
-  Button,
   Column,
   Container,
   Head,
   Heading,
   Html,
-  Img,
   Link,
   Preview,
   Row,
   Section,
-  Text,
   Tailwind,
+  Text,
 } from "@react-email/components";
 import * as React from "react";
 
 interface WelcomeEmailProps {
   name: string;
+  email: string;
   steps?: {
     id: number;
     Description: React.ReactNode;
   }[];
-  links?: string[];
+  links?: { text: string; href: string }[];
 }
 
-const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "";
-
-const PropDefaults: Omit<WelcomeEmailProps, "name"> = {
+const PropDefaults: Omit<WelcomeEmailProps, "name" | "email"> = {
   steps: [
     {
       id: 1,
       Description: (
         <li className="mb-20" key={1}>
-          <strong>Deploy your first project.</strong>{" "}
-          <Link>Connect to Git, choose a template</Link>, or manually deploy a
-          project you&#39;ve been working on locally.
+          <strong>First-class developer experience.</strong> We are a team of
+          engineers who love building tools for other engineers. Our goal is to
+          create the email platform we&apos;ve always wished we had — one that
+          just works.
         </li>
       ),
     },
@@ -45,9 +41,9 @@ const PropDefaults: Omit<WelcomeEmailProps, "name"> = {
       id: 2,
       Description: (
         <li className="mb-20" key={2}>
-          <strong>Check your deploy logs.</strong> Find out what&#39;s included
-          in your build and watch for errors or failed deploys.{" "}
-          <Link>Learn how to read your deploy logs</Link>.
+          <strong>Programming languages for all</strong> A simple, elegant
+          interface so you can start sending emails in minutes. It fits right
+          into your code with SDKs for your favorite programming languages.
         </li>
       ),
     },
@@ -55,9 +51,9 @@ const PropDefaults: Omit<WelcomeEmailProps, "name"> = {
       id: 3,
       Description: (
         <li className="mb-20" key={3}>
-          <strong>Choose an integration.</strong> Quickly discover, connect, and
-          configure the right tools for your project with 150+ integrations to
-          choose from. <Link>Explore the Integrations Hub</Link>.
+          <strong>Skip the spam folder</strong> The best way to reach humans
+          instead of spam folders. Deliver transactional and marketing emails at
+          scale.
         </li>
       ),
     },
@@ -65,19 +61,34 @@ const PropDefaults: Omit<WelcomeEmailProps, "name"> = {
       id: 4,
       Description: (
         <li className="mb-20" key={4}>
-          <strong>Set up a custom domain.</strong> You can register a new domain
-          and buy it through Resend Gazette or assign a domain you already own
-          to your site. <Link>Add a custom domain</Link>.
+          <strong>Bringing Resend news to you.</strong> With each new update, we
+          will send out a fresh newsletter to keep you up-to-date. You can also
+          view all our posts at any time on the Resend blog.
+          <Link href="https://resend.com/blog">View all blog posts</Link>.
         </li>
       ),
     },
   ],
-  links: ["Visit the forums", "Read the docs", "Contact an expert"],
+  links: [
+    {
+      text: "View all blog posts",
+      href: "https://resend.com/blog",
+    },
+    {
+      text: "View the docs",
+      href: "https://resend.com/docs/introduction",
+    },
+    {
+      text: "View your account",
+      href: "https://resend.com/login",
+    },
+  ],
 };
 
 export const WelcomeEmail = ({
   steps = PropDefaults.steps,
   links = PropDefaults.links,
+  email,
   name,
 }: WelcomeEmailProps) => {
   return (
@@ -89,7 +100,7 @@ export const WelcomeEmail = ({
           theme: {
             extend: {
               colors: {
-                brand: "#2250f4",
+                brand: "#121212",
                 offwhite: "#fafbfb",
               },
               spacing: {
@@ -102,7 +113,7 @@ export const WelcomeEmail = ({
         }}
       >
         <Body className="bg-offwhite text-base font-sans">
-          <Container className="bg-white p-45">
+          <Container className="bg-white p-20">
             <Heading className="text-center my-0 leading-8">
               Welcome to Resend Gazette, {name}
             </Heading>
@@ -110,11 +121,12 @@ export const WelcomeEmail = ({
             <Section>
               <Row>
                 <Text className="text-base">
-                  You’re joining hundreds of developers around the world who use
-                  Resend Gazette to keep up to date with all things Resend.
+                  You’re joining hundreds of thousands of developers around the
+                  world who subscribe to the Resend Gazette to keep up to date
+                  with all things Resend.
                 </Text>
 
-                <Text className="text-base">Here's how to get started:</Text>
+                <Text className="text-base">Here’s what you need to know:</Text>
               </Row>
             </Section>
 
@@ -122,31 +134,44 @@ export const WelcomeEmail = ({
 
             <Section className="mt-45">
               <Row>
-                {links?.map((link) => (
-                  <Column key={link}>
-                    <Link className="text-black underline font-bold">
-                      {link}
+                {links?.map(({ text, href }) => (
+                  <Column key={href}>
+                    <Link
+                      href={href}
+                      className="text-black underline font-bold"
+                    >
+                      {text}
                     </Link>{" "}
-                    <span className="text-green-500">→</span>
+                    <span className="text-[#56D4B9]">→</span>
                   </Column>
                 ))}
               </Row>
             </Section>
           </Container>
 
-          <Container className="mt-20">
+          <Container className="mt-20 text-center">
             <Section>
               <Row>
-                <Column className="text-right px-20">
-                  <Link>Unsubscribe</Link>
+                <Column className="px-20">
+                  <Text className="text-xs">
+                    You are receiving this email because you signed up for the
+                    Resend Gazette.
+                  </Text>
                 </Column>
-                <Column className="text-left">
-                  <Link>Manage Preferences</Link>
+              </Row>
+              <Row>
+                <Column className="px-20">
+                  <Link
+                    href={`https://resend-gazette.vercel.app/unsubscribe?email=${email}`}
+                    className="text-xs"
+                  >
+                    Unsubscribe
+                  </Link>
                 </Column>
               </Row>
             </Section>
-            <Text className="text-center text-gray-400 mb-45">
-              Resend Gazette, 44 Montgomery Street, Suite 300 San Francisco, CA
+            <Text className="text-center text-gray-400 mb-45 text-xs">
+              Resend Gazette, 123 Main St, San Francisco, CA
             </Text>
           </Container>
         </Body>

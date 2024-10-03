@@ -6,7 +6,7 @@ type Props = {
   onInput?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
-export const TextInput = forwardRef<HTMLInputElement, Props>(
+const TextInput = forwardRef<HTMLInputElement, Props>(
   ({ errorMessage, onInput, name, ...rest }, ref) => {
     return (
       <label className="grid gap-1">
@@ -31,4 +31,6 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(
   }
 );
 
-TextInput.displayName = "Input";
+export default TextInput;
+
+TextInput.displayName = "TextInput";
