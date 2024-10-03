@@ -1,6 +1,8 @@
 # Resend Gazette
 
-The Resend Gazette is an open source exploration of [Resend](https://resend.com). The project is live and published at [resend-gazette.vercel.app](https://resend-gazette.vercel.app)
+The Resend Gazette is an open source exploration of [Resend](https://resend.com).
+
+The project is published at [resend-gazette.vercel.app](https://resend-gazette.vercel.app).
 
 ## Stack
 
