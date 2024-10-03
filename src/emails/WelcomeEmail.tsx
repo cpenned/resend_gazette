@@ -41,7 +41,7 @@ const PropDefaults: Omit<WelcomeEmailProps, "name" | "email"> = {
       id: 2,
       Description: (
         <li className="mb-20" key={2}>
-          <strong>Programming languages for all</strong> A simple, elegant
+          <strong>Programming languages for all.</strong> A simple, elegant
           interface so you can start sending emails in minutes. It fits right
           into your code with SDKs for your favorite programming languages.
         </li>
@@ -51,7 +51,7 @@ const PropDefaults: Omit<WelcomeEmailProps, "name" | "email"> = {
       id: 3,
       Description: (
         <li className="mb-20" key={3}>
-          <strong>Skip the spam folder</strong> The best way to reach humans
+          <strong>Skip the spam folder.</strong> The best way to reach humans
           instead of spam folders. Deliver transactional and marketing emails at
           scale.
         </li>
@@ -63,7 +63,7 @@ const PropDefaults: Omit<WelcomeEmailProps, "name" | "email"> = {
         <li className="mb-20" key={4}>
           <strong>Bringing Resend news to you.</strong> With each new update, we
           will send out a fresh newsletter to keep you up-to-date. You can also
-          view all our posts at any time on the Resend blog.
+          view all our posts at any time on the Resend blog.{" "}
           <Link href="https://resend.com/blog">View all blog posts</Link>.
         </li>
       ),
