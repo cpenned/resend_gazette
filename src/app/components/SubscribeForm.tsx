@@ -32,19 +32,11 @@ const textInputs = [
 
 const SubscribeForm = () => {
   const [showForm, setShowForm] = useState(true);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [count, setCount] = useState(60);
-
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [submitState, submitSendEmail] = useFormState(sendEmail, {
-    message: "",
-    success: false,
-    cancelEmail: null,
-    errors: {},
-  });
-  const [cancelState, submitCancelEmail] = useFormState(cancelEmail, {
-    message: "Thank you for subscribing!",
-    success: false,
-  });
+  const [submitState, submitSendEmail] = useFormState(sendEmail, null);
+  const [cancelState, submitCancelEmail] = useFormState(cancelEmail, null);
 
   useEffect(() => {
     if (submitState?.errors) {
@@ -53,6 +45,17 @@ const SubscribeForm = () => {
 
     if (submitState?.success) {
       setShowForm(false);
+    }
+
+    if (
+      (submitState?.success === false && submitState?.errors === null) ||
+      cancelState?.success === false
+    ) {
+      setShowErrorMessage(true);
+      const timer = setTimeout(() => {
+        setShowErrorMessage(false);
+      }, 6000);
+      return () => clearTimeout(timer);
     }
   }, [submitState]);
 
@@ -86,7 +89,10 @@ const SubscribeForm = () => {
   return (
     <>
       {showForm ? (
-        <form className="grid gap-4 w-full max-w-sm" action={submitSendEmail}>
+        <form
+          className="grid gap-4 w-full max-w-xs relative"
+          action={submitSendEmail}
+        >
           <div className="text-center">
             <h1 className="text-3xl font-bold">The Resend Gazette</h1>
             <p className="text-pretty">
@@ -115,6 +121,11 @@ const SubscribeForm = () => {
           <p className="sr-only" aria-live="polite" role="status">
             {submitState?.message}
           </p>
+          {showErrorMessage && (
+            <Wrapper className="shadow-2xl shadow-red-500/60 text-red-500 font-bold border-2 border-red-500 absolute -bottom-20 w-full">
+              <p className="text-center">{submitState?.message}</p>
+            </Wrapper>
+          )}
         </form>
       ) : (
         <Wrapper className="shadow-2xl shadow-secondary/20">
@@ -155,9 +166,9 @@ const SubscribeForm = () => {
           </div>
         </Wrapper>
       )}
-      <div className="absolute -z-10">
+      <div className="absolute -z-10 left-1/2 pointer-events-none">
         <Confetti
-          active={submitState.success}
+          active={submitState?.success === true}
           config={{
             startVelocity: 80,
             duration: 15000,

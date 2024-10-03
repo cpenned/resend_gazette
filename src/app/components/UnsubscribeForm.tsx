@@ -10,6 +10,7 @@ import Wrapper from "./ui/Wrapper";
 
 const UnsubscribeForm = () => {
   const [showForm, setShowForm] = useState(true);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [state, unsubscribeAction] = useFormState(unsubscribeEmail, null);
 
@@ -20,6 +21,14 @@ const UnsubscribeForm = () => {
 
     if (state?.success) {
       setShowForm(false);
+    }
+
+    if (state?.success === false && state?.errors === null) {
+      setShowErrorMessage(true);
+      const timer = setTimeout(() => {
+        setShowErrorMessage(false);
+      }, 6000);
+      return () => clearTimeout(timer);
     }
   }, [state]);
 
@@ -35,7 +44,10 @@ const UnsubscribeForm = () => {
   return (
     <>
       {showForm ? (
-        <form className="grid gap-4 w-full max-w-xs" action={unsubscribeAction}>
+        <form
+          className="grid gap-4 w-full max-w-xs relative"
+          action={unsubscribeAction}
+        >
           <div className="text-center">
             <h1 className="text-3xl font-bold">The Resend Gazette</h1>
             <p className="text-pretty">
@@ -66,6 +78,11 @@ const UnsubscribeForm = () => {
           <p className="sr-only" aria-live="polite" role="status">
             {state?.message}
           </p>
+          {showErrorMessage && (
+            <Wrapper className="shadow-2xl shadow-red-500/60 text-red-500 font-bold border-2 border-red-500 absolute -bottom-20 w-full">
+              <p className="text-center">{state?.message}</p>
+            </Wrapper>
+          )}
         </form>
       ) : (
         <Wrapper>

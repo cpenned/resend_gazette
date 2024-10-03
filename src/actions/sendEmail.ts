@@ -16,21 +16,22 @@ export async function sendEmail(_: unknown, formData: FormData) {
     attachment: z.enum(["on"]).optional(),
   });
 
-  const parse = formSchema.safeParse(Object.fromEntries(formData));
-
-  if (!parse.success) {
-    return {
-      success: false,
-      message: parse.error.message,
-      cancelEmail: null,
-      errors: Object.fromEntries(
-        parse.error.issues.map((issue) => [issue.path[0], issue.message])
-      ),
-    };
-  }
-
-  const shouldSchedule = !parse.data.attachment;
   try {
+    const parse = formSchema.safeParse(Object.fromEntries(formData));
+
+    if (!parse.success) {
+      return {
+        success: false,
+        message: parse.error.message,
+        cancelEmail: null,
+        errors: Object.fromEntries(
+          parse.error.issues.map((issue) => [issue.path[0], issue.message])
+        ),
+      };
+    }
+
+    const shouldSchedule = !parse.data.attachment;
+
     const emailData = await resend.emails.send({
       from: "Chris Pennington <chris@codinginpublic.dev>",
       to: [parse.data.email],
