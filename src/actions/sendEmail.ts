@@ -49,7 +49,7 @@ export async function sendEmail(_: unknown, formData: FormData) {
       ],
       scheduledAt: shouldSchedule
         ? // send 1 min from now if no attachement
-          new Date(Date.now() + 60000).toISOString()
+          "in 1 min"
         : undefined,
       headers: {
         "List-Unsubscribe": `<https://resend-gazette.vercel.app/unsubscribe?email=${parse.data.email}>`,
