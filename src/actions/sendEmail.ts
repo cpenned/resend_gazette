@@ -23,6 +23,7 @@ export async function sendEmail(_: unknown, formData: FormData) {
       return {
         success: false,
         message: parse.error.message,
+        cancelEmailId: null,
         cancelEmail: null,
         errors: Object.fromEntries(
           parse.error.issues.map((issue) => [issue.path[0], issue.message])
@@ -72,7 +73,8 @@ export async function sendEmail(_: unknown, formData: FormData) {
     }
 
     return {
-      message: emailData.data?.id,
+      message: "Thank you for subscribing!",
+      cancelEmailId: emailData.data?.id,
       cancelEmail: shouldSchedule ? parse.data.email : null,
       errors: null,
       success: true,
@@ -82,6 +84,7 @@ export async function sendEmail(_: unknown, formData: FormData) {
     return {
       message: (error as Error).message,
       cancelEmail: null,
+      cancelEmailId: null,
       errors: null,
       success: false,
     };

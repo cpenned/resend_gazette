@@ -34,6 +34,7 @@ const SubscribeForm = () => {
   const [showForm, setShowForm] = useState(true);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [count, setCount] = useState(60);
+  const [successMessage, setSuccessMessage] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitState, submitSendEmail] = useFormState(sendEmail, null);
   const [cancelState, submitCancelEmail] = useFormState(cancelEmail, null);
@@ -45,6 +46,11 @@ const SubscribeForm = () => {
 
     if (submitState?.success) {
       setShowForm(false);
+      setSuccessMessage(submitState.message);
+    }
+
+    if (cancelState?.success) {
+      setSuccessMessage(cancelState.message);
     }
 
     if (
@@ -57,7 +63,7 @@ const SubscribeForm = () => {
       }, 6000);
       return () => clearTimeout(timer);
     }
-  }, [submitState]);
+  }, [submitState, cancelState]);
 
   useEffect(() => {
     if (cancelState?.success) {
@@ -132,7 +138,7 @@ const SubscribeForm = () => {
           <div className="grid gap-6 items-center text-center">
             <div>
               <p className="text-2xl font-bold text-secondary">
-                {cancelState?.message}
+                {successMessage}
               </p>
               {submitState?.cancelEmail && count > 0 && (
                 <p>
@@ -153,7 +159,7 @@ const SubscribeForm = () => {
                   type="text"
                   hidden
                   name="emailId"
-                  value={submitState?.message}
+                  value={submitState?.cancelEmailId}
                   readOnly
                 />
                 <Button
